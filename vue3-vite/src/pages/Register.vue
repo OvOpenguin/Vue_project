@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import type { registerType, registerRulesType } from '../utils/types'; //導入 types.ts 設置
-import type { FormInstance } from 'element-plus'; // element-plus
+import type { FormInstance } from 'element-plus';  // element-plus
+import { ElMessage } from 'element-plus';
 import axios from "axios";
+import { useRouter } from 'vue-router';
+
+
+const router = useRouter();
 
 // 獲取表單的DOM
 const ruleFormRef = ref<FormInstance>();
@@ -11,8 +16,8 @@ const ruleFormRef = ref<FormInstance>();
 const registerUser = ref<registerType>({
     name: "test",
     email: "test@test.com",
-    password: "test",
-    password2: "test",
+    password: "test123",
+    password2: "test123",
     identity: "manager",
 });
 
@@ -55,15 +60,28 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
                 email: registerUser.value.email,
                 password: registerUser.value.password,
             };
-            // POST api 請求
-            const { data } = await axios.post(
-                "/api/auth/local/register",
-                registerData
-            );
 
-            console.log(data);
-        } else {
-            console.log('error submit!')
+            try {
+                // POST api 請求
+                const { data } = await axios.post(
+                    "/api/auth/local/register",
+                    registerData
+                );
+                router.push('/');
+                // console.log(data);
+                ElMessage({
+                    message: '註冊成功！',
+                    type: 'success',
+                })
+
+            } catch (error) {
+                const errMsg = error.response?.data?.error?.message || '註冊失敗，請檢查網路或後端設定';
+                console.error('註冊失敗：', error);
+                ElMessage.error(errMsg);
+            }
+        }
+        else {
+            console.log('表單驗證失敗')
         }
     });
 };
@@ -141,46 +159,8 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
                         <el-button @click="handleSubmit(ruleFormRef)">註冊</el-button>
                     </el-form-item>
 
-
                 </el-form>
-
             </div>
         </section>
     </div>
 </template>
-
-<style scoped>
-.register {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: url(../assets/bg.jpg) no-repeat center center;
-    background-size: 100% 100%;
-}
-
-.form-container {
-    width: 370px;
-    height: 210px;
-    position: absolute;
-    top: 10%;
-    left: 34%;
-    padding: 25px;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.form-container .manage-tip .title {
-    font-family: "Microsoft YaHei";
-    font-weight: bold;
-    font-size: 26px;
-    color: #fff;
-}
-
-.registerForm {
-    margin-top: 20px;
-    background-color: #fff;
-    padding: 40px 40px 20px 20px;
-    border-radius: 5px;
-    box-shadow: 0px 5px 10px #cccc;
-}
-</style>

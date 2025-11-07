@@ -1,15 +1,15 @@
 export interface registerType {
-    name: string;
+    name?: string;
     email: string;
     password: string;
-    password2: string;
-    identity: string;
+    password2?: string;
+    identity?: string;
 }
 
 
 // 註冊規則
 export interface registerRulesType {
-    name: ({
+    name?: ({
         required: boolean;
         message: string;
         trigger: string;
@@ -35,7 +35,7 @@ export interface registerRulesType {
         message: string;
         trigger: string;
     })[];
-    password2: ({
+    password2?: ({
         min: number;
         max: number;
         message: string;
