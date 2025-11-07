@@ -3,21 +3,16 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios';
+import axios from '../utils/api';
 import { onMounted } from 'vue';
 
-// 取得 jwtToken
-const jwtToken = localStorage.getItem('jwtToken');
+
 
 // 取得user資料
 onMounted(async () => {
   try {
-    const userData = await axios.get("/api/users/me", {
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      }
-    });
-    console.log(userData);
+    await axios.get("/api/users/me?populate=*");
+    console.log("get success");
   } catch (error) {
     console.log(error);
   }

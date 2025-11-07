@@ -48,12 +48,11 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
                 );
 
                 // console.log(data); //查看response資料
-
                 const jwtToken = data?.jwt;
                 const userInfo = data?.user;
 
                 // 儲存 token & userInfo
-                if (jwtToken && userInfo) {
+                if (jwtToken) {
                     localStorage.setItem('jwtToken', jwtToken);
                     localStorage.setItem('user', JSON.stringify(userInfo));
                     ElMessage({
