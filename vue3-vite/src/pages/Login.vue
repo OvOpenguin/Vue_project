@@ -3,7 +3,7 @@ import { ref, reactive } from 'vue';
 import type { registerType, registerRulesType } from '../utils/types'; //導入 types.ts 設置
 import type { FormInstance } from 'element-plus';  // element-plus
 import { ElMessage } from 'element-plus';
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { useRouter, RouterLink } from 'vue-router';
 
 
@@ -64,9 +64,12 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
                 };
 
             } catch (error) {
-                const errMsg = error.response?.data?.error?.message || '註冊失敗，請檢查網路或後端設定';
-                console.error('登入失敗：', error);
-                ElMessage.error(errMsg);
+                // 向 TypeScript 證明 error 的屬性 (AxiosError 型別)
+                if (isAxiosError(error)) {
+                    const errMsg = error.response?.data?.error?.message || '註冊失敗，請檢查網路或後端設定';
+                    ElMessage.error(errMsg);
+                    console.error('登入失敗：', error);
+                }
             }
         }
         else {
