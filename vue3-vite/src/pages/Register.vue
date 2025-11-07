@@ -47,14 +47,25 @@ const rules = reactive<registerRulesType>({
 // 註冊 (element)
 const handleSubmit = (formEl: FormInstance | undefined) => {
     if (!formEl) return
-    formEl.validate((valid: boolean) => {
+    formEl.validate(async (valid: boolean) => {
         if (valid) {
-            console.log('submit!')
+            // 依照strapi 要求，重新建構傳送資料
+            const registerData = {
+                username: registerUser.value.name,
+                email: registerUser.value.email,
+                password: registerUser.value.password,
+            };
+            // POST api 請求
+            const { data } = await axios.post(
+                "/api/auth/local/register",
+                registerData
+            );
+
+            console.log(data);
         } else {
             console.log('error submit!')
         }
     });
-    // console.log(registerUser.value);
 };
 
 
