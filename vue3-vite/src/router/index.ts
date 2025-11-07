@@ -36,15 +36,18 @@ const router = createRouter({
 });
 
 // 路由守衛
-router.beforeEach((to, _from, next) => {
+router.beforeEach((to) => {
     // 如果有token才能前往首頁，否則只能前往 登入/註冊 頁面
-    const isLogin: boolean = localStorage.jwtToken ? true : false;
+    // const isLogin: boolean = localStorage.jwtToken ? true : false;
+    const isLogin: boolean = !!localStorage.jwtToken;
 
     if (to.path === '/login' || to.path === '/register') {
-        next()
-    } else {
-        isLogin ? next() : next('/login')
+        return true;
     }
+    if(isLogin){
+        return true;
+    }
+    return '/login';
 })
 
 export default router;
