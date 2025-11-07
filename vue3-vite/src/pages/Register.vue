@@ -3,7 +3,7 @@ import { ref, reactive } from 'vue';
 import type { registerType, registerRulesType } from '../utils/types'; //導入 types.ts 設置
 import type { FormInstance } from 'element-plus';  // element-plus
 import { ElMessage } from 'element-plus';
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { useRouter } from 'vue-router';
 
 
@@ -68,16 +68,19 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
                     registerData
                 );
                 router.push('/');
-                // console.log(data);
+                console.log(data);
                 ElMessage({
                     message: '註冊成功！',
                     type: 'success',
                 })
 
             } catch (error) {
-                const errMsg = error.response?.data?.error?.message || '註冊失敗，請檢查網路或後端設定';
-                console.error('註冊失敗：', error);
-                ElMessage.error(errMsg);
+                if (isAxiosError(error)) {
+                    const errMsg = error.response?.data?.error?.message || '註冊失敗，請檢查網路或後端設定';
+                    console.error('註冊失敗：', error);
+                    ElMessage.error(errMsg);
+                }
+
             }
         }
         else {

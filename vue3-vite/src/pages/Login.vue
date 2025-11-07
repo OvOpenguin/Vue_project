@@ -47,7 +47,7 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
                     loginData
                 );
 
-                console.log(data); //查看response資料
+                // console.log(data); //查看response資料
 
                 const jwtToken = data?.jwt;
                 const userInfo = data?.user;
