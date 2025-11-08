@@ -12,7 +12,6 @@ import { onMounted } from 'vue';
 onMounted(async () => {
   try {
     await axios.get("/api/users/me?populate=*");
-    console.log("get success");
   } catch (error) {
     console.log(error);
   }
