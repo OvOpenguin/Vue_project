@@ -1,5 +1,20 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
+import { useAuthStore } from './store';
 
+const store = useAuthStore();
+
+// 組件掛載時初始化
+onMounted(() => {
+    store.initFromLocalStorage();
+});
+
+// // 監聽 localStorage 變化（跨 tab 或同頁面）
+// window.addEventListener('storage', (event) => {
+//     if (event.key === 'jwtToken' || event.key === 'userData') {
+//         store.initFromLocalStorage();
+//     }
+// });
 </script>
 
 <template>
@@ -24,7 +39,7 @@ body,
     background-size: 100% 100%;
 }
 
-.login a{
+.login a {
     text-decoration: none;
     color: #2b8dd2;
     font-weight: bold;

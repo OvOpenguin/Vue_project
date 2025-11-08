@@ -23,7 +23,7 @@ axios.interceptors.response.use((response) => {
     const { status } = error.response;
     if (status === 401) {
         localStorage.removeItem("jwtToken");
-        localStorage.removeItem("user");
+        localStorage.removeItem("userData");
         router.push("/login");
     };
     return Promise.reject(error);

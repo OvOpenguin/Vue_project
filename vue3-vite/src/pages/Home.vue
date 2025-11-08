@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+
 import axios from '../utils/api';
 import { onMounted } from 'vue';
 
