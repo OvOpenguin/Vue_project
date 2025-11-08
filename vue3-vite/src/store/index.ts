@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import type { userType } from '../utils/types';
 
 export const useAuthStore = defineStore('auth', {
     state: () => {
@@ -15,7 +16,8 @@ export const useAuthStore = defineStore('auth', {
                 this.isAuthenticated = false;
             }
         },
-        setUser(user: any) {
+        // 這邊還需要改動 user 的 TS 類型(暫時放any)
+        setUser(user: userType | null) {
             this.user = user || {};
         },
         // 存放state

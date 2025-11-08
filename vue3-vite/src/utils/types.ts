@@ -45,3 +45,12 @@ export interface registerRulesType {
         trigger: string;
     })[];
 }
+
+// user 的資料 (存放 localStorage 內)
+export interface userType {
+    // 放入需要的資料類型(參看回傳的資料)
+    id: Number,
+    email: String,
+    username: String,
+    avatar?: String,
+}

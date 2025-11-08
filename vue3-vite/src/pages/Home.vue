@@ -1,11 +1,14 @@
 <template>
-  <div class="index">初始化頁面</div>
+  <div class="index">
+    <Navbar/>
+  </div>
 </template>
 
 <script setup lang="ts">
 
 import axios from '../utils/api';
 import { onMounted } from 'vue';
+import Navbar from '../components/Navbar.vue';
 
 
 
@@ -19,4 +22,6 @@ onMounted(async () => {
 })
 </script>
 
-<style></style>
+<style>
+
+</style>
