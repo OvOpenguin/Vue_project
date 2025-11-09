@@ -17,13 +17,13 @@ axios.interceptors.request.use((config) => {
 // 響應攔截(Response)
 axios.interceptors.response.use((response) => {
     // console.log(response.data);
-    localStorage.setItem('userData', JSON.stringify(response.data));
+    // localStorage.setItem('userData', JSON.stringify(response.data));  //暫時看回傳結構(之後刪除)
     return response;
 }, (error) => {
     const { status } = error.response;
     if (status === 401) {
         localStorage.removeItem("jwtToken");
-        localStorage.removeItem("userData");
+        localStorage.removeItem("safeUserData");
         router.push("/login");
     };
     return Promise.reject(error);

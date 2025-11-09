@@ -5,7 +5,7 @@ export const useAuthStore = defineStore('auth', {
     state: () => {
         return {
             isAuthenticated: false,
-            user: {}
+            user: null as userType | null,
         }
     },
     actions: {
@@ -18,14 +18,14 @@ export const useAuthStore = defineStore('auth', {
         },
         // 這邊還需要改動 user 的 TS 類型(暫時放any)
         setUser(user: userType | null) {
-            this.user = user || {};
+            this.user = user;
         },
         // 存放state
         initFromLocalStorage() {
             const token = localStorage.getItem('jwtToken');
-            const userData = localStorage.getItem('userData');
+            const userSafeData = localStorage.getItem('userSafeData');
             this.setAuth(!!token);
-            this.setUser(userData ? JSON.parse(userData) : {});
+            this.setUser(userSafeData ? JSON.parse(userSafeData) : {});
         }
     },
     getters: {

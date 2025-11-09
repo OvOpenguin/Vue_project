@@ -19,13 +19,20 @@
             >
                 <div class="userInfo">
                     <img
+                        v-if="store.user?.avatar"
+                        :src="String(store.user?.avatar)"
+                        alt="avatar"
+                        class="avatar"
+                    >
+                    <img
+                        v-else
                         src="../assets/avatarDefault.png"
                         alt="avatar"
                         class="avatar"
                     >
                     <div class="welcome-content">
                         <p class="content welcome">歡迎</p>
-                        <p class="content username">企鵝</p>
+                        <p class="content username">{{ store.user?.username }}</p>
                     </div>
                     <!-- 下拉選單 -->
                     <span class="dropdown">
@@ -81,7 +88,7 @@ const logout = () => {
     // 登出需要刪除 localStorage的內容
     // 需要做全局狀態的更動
     localStorage.removeItem("jwtToken");
-    localStorage.removeItem("userData");
+    localStorage.removeItem("safeUserData");
     store.setAuth(false);
     store.setUser(null);
     router.push('/login');
@@ -91,7 +98,7 @@ const logout = () => {
 <style scoped>
 .nav {
     width: 100%;
-    height: 60px;
+    height: auto;
     background: #074c62;
     color: #fff;
     border-bottom: 1px solid #1f2d3d;

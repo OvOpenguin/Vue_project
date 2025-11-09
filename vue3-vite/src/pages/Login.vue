@@ -48,12 +48,11 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
                     "/api/auth/local",
                     loginData
                 );
-
-                // console.log(data); //查看response資料
+                
                 const jwtToken = data?.jwt;
-
                 // 儲存 token & userInfo
                 if (jwtToken) {
+
                     localStorage.setItem('jwtToken', jwtToken);
                     ElMessage({
                         message: '登入成功！',
