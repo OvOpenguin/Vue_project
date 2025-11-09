@@ -81,7 +81,7 @@ const handleDropdown = (item: string) => {
 };
 
 const showUserInfo = () => {
-    console.log('跳轉個人資料頁');
+    router.push('/userInfo');
 };
 
 const logout = () => {

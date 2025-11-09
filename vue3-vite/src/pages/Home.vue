@@ -1,6 +1,7 @@
 <template>
-  <div class="index">
+  <div class="home">
     <Navbar />
+    <router-view></router-view>
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import { onMounted } from 'vue';
 import Navbar from '../components/Navbar.vue';
 import { useAuthStore } from '../store';
 import type { userType } from '../utils/types';
+import { RouterView } from 'vue-router';
 
 
 const store = useAuthStore();
@@ -42,4 +44,11 @@ onMounted(async () => {
 })
 </script>
 
-<style></style>
+<style scoped>
+.home{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+</style>

@@ -3,6 +3,8 @@ import Home from "../pages/Home.vue";
 import Error404 from "../pages/Error404.vue";
 import Register from "../pages/Register.vue";
 import Login from "../pages/Login.vue";
+import Index from "../pages/index.vue";
+import UserInfo from "../pages/UserInfo.vue";
 
 
 
@@ -11,6 +13,11 @@ const routes: Array<RouteRecordRaw> = [
         path: "/",
         name: "Home",
         component: Home,
+        // 子路由
+        children: [
+            { path: "", name: "Index", component: Index },
+            { path: "/userInfo", name: "userInfo", component: UserInfo },
+        ]
     },
     {
         path: "/:catchAll(.*)",
@@ -44,7 +51,7 @@ router.beforeEach((to) => {
     if (to.path === '/login' || to.path === '/register') {
         return true;
     }
-    if(isLogin){
+    if (isLogin) {
         return true;
     }
     return '/login';
