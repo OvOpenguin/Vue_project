@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <Navbar />
+    <Sidebar/>
     <router-view></router-view>
   </div>
 </template>
@@ -13,6 +14,7 @@ import Navbar from '../components/Navbar.vue';
 import { useAuthStore } from '../store';
 import type { userType } from '../utils/types';
 import { RouterView } from 'vue-router';
+import Sidebar from '../components/Sidebar.vue';
 
 
 const store = useAuthStore();
