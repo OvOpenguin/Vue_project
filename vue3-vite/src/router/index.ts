@@ -5,6 +5,7 @@ import Register from "../pages/Register.vue";
 import Login from "../pages/Login.vue";
 import Index from "../pages/index.vue";
 import UserInfo from "../pages/UserInfo.vue";
+import FundList from "../pages/FundList.vue";
 
 
 
@@ -17,6 +18,7 @@ const routes: Array<RouteRecordRaw> = [
         children: [
             { path: "", name: "Index", component: Index },
             { path: "/userInfo", name: "userInfo", component: UserInfo },
+            { path: "/fundList", name: "fundList", component: FundList },
         ]
     },
     {

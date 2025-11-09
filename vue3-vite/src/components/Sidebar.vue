@@ -9,12 +9,14 @@
                 text-color="#fff"
             >
                 <!-- 首頁 -->
-                <el-menu-item index="1">
-                    <el-icon>
-                        <House />
-                    </el-icon>
-                    <span>首頁</span>
-                </el-menu-item>
+                <router-link to="/">
+                    <el-menu-item index="1">
+                        <el-icon>
+                            <House />
+                        </el-icon>
+                        <span>首頁</span>
+                    </el-menu-item>
+                </router-link>
 
                 <template
                     v-for="menu in menus"
@@ -33,12 +35,20 @@
                         </template>
 
                         <el-menu-item-group>
-                            <el-menu-item
+
+                            <router-link
                                 v-for="(item, index) in menu.children"
                                 :key="index"
-                                :index="item.path"
-                            >{{ item.name }}</el-menu-item>
+                                :to="item.path"
+                            >
+                                <el-menu-item :index="item.path">
+                                    {{ item.name }}
+                                </el-menu-item>
+
+                            </router-link>
+
                         </el-menu-item-group>
+
                     </el-sub-menu>
 
 
@@ -83,22 +93,21 @@
 import { Money, House, Setting } from "@element-plus/icons-vue";
 import { ref } from "vue";
 
-// 讓 sidebar 動態顯示
+// 讓 sidebar 動態顯示 (使用 v-for 抓取對應資料)
 const menus = ref([
     {
         icon: Money,
         name: "資金管理",
         path: "fund",
         children: [
-            { path: '/fundList1', name: "資金流向1" },
-            { path: '/fundList2', name: "資金流向2" },
+            { path: '/fundList', name: "資金流向" },
         ]
     },
     {
         icon: Setting,
         name: "基礎設定",
         path: "info",
-        children: [{ path: '/infoshow', name: "個人資料" }]
+        children: [{ path: '/userInfo', name: "個人資料" }]
     },
 ]);
 

@@ -173,4 +173,5 @@ const logout = () => {
 .dropdown i {
     margin-top: 25px;
 }
+
 </style>

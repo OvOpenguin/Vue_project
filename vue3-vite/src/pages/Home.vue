@@ -2,7 +2,7 @@
   <div class="home">
     <Navbar />
     <Sidebar/>
-    <router-view></router-view>
+    <div class="container-right"><router-view></router-view></div>
   </div>
 </template>
 
@@ -51,6 +51,15 @@ onMounted(async () => {
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+.container-right{
+  position: relative;
+  top: 0;
+  left: 180px;
+  width: calc(100%-180px);
+  height: 100%;
+  overflow: auto;
 }
 
 </style>

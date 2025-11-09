@@ -59,9 +59,6 @@ const store = useAuthStore();
     position: relative;
     text-align: center;
     top: 30%;
-    display: flex;
-    justify-content: end;
-    padding-right: 20px;
 }
 
 .user img {
