@@ -91,12 +91,12 @@
 
 <script setup lang="ts">
 import { Money, House, Setting } from "@element-plus/icons-vue";
-import { ref } from "vue";
+import { ref, markRaw } from "vue";
 
 // 讓 sidebar 動態顯示 (使用 v-for 抓取對應資料)
 const menus = ref([
     {
-        icon: Money,
+        icon: markRaw(Money),
         name: "資金管理",
         path: "fund",
         children: [
@@ -104,7 +104,7 @@ const menus = ref([
         ]
     },
     {
-        icon: Setting,
+        icon:  markRaw(Setting),
         name: "基礎設定",
         path: "info",
         children: [{ path: '/userInfo', name: "個人資料" }]

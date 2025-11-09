@@ -1,3 +1,79 @@
+<template>
+    <div class="register">
+        <section class="form-container">
+            <div class="manage-tip">
+                <span class="title">後臺管理系統</span>
+                <!-- 表單 -->
+                <el-form
+                    ref="ruleFormRef"
+                    :rules="rules"
+                    :model="registerUser"
+                    class="registerForm"
+                    label-width="100px"
+                >
+                    <el-form-item
+                        label="使用者名稱"
+                        prop="name"
+                    >
+                        <el-input
+                            v-model="registerUser.name"
+                            placeholder="請輸入使用者名稱"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="電子郵件"
+                        prop="email"
+                    >
+                        <el-input
+                            v-model="registerUser.email"
+                            placeholder="請輸入郵件"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="密碼"
+                        prop="password"
+                    >
+                        <el-input
+                            v-model="registerUser.password"
+                            placeholder="請輸入密碼"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="確認密碼"
+                        prop="password2"
+                    >
+                        <el-input
+                            v-model="registerUser.password2"
+                            placeholder="再次確認密碼"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item label="選擇身分">
+                        <el-select
+                            v-model="registerUser.identity"
+                            placeholder="選擇身分"
+                        >
+                            <el-option
+                                label="管理員"
+                                value="manager"
+                            ></el-option>
+                            <el-option
+                                label="一般員工"
+                                value="employee"
+                            ></el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <!-- 註冊 -->
+                    <el-form-item>
+                        <el-button @click="handleSubmit(ruleFormRef)">註冊</el-button>
+                    </el-form-item>
+
+                </el-form>
+            </div>
+        </section>
+    </div>
+</template>
+
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import type { registerType, registerRulesType } from '../utils/types'; //導入 types.ts 設置
@@ -91,79 +167,3 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
 
 
 </script>
-
-<template>
-    <div class="register">
-        <section class="form-container">
-            <div class="manage-tip">
-                <span class="title">後臺管理系統</span>
-                <!-- 表單 -->
-                <el-form
-                    ref="ruleFormRef"
-                    :rules="rules"
-                    :model="registerUser"
-                    class="registerForm"
-                    label-width="100px"
-                >
-                    <el-form-item
-                        label="使用者名稱"
-                        prop="name"
-                    >
-                        <el-input
-                            v-model="registerUser.name"
-                            placeholder="請輸入使用者名稱"
-                        ></el-input>
-                    </el-form-item>
-                    <el-form-item
-                        label="電子郵件"
-                        prop="email"
-                    >
-                        <el-input
-                            v-model="registerUser.email"
-                            placeholder="請輸入郵件"
-                        ></el-input>
-                    </el-form-item>
-                    <el-form-item
-                        label="密碼"
-                        prop="password"
-                    >
-                        <el-input
-                            v-model="registerUser.password"
-                            placeholder="請輸入密碼"
-                        ></el-input>
-                    </el-form-item>
-                    <el-form-item
-                        label="確認密碼"
-                        prop="password2"
-                    >
-                        <el-input
-                            v-model="registerUser.password2"
-                            placeholder="再次確認密碼"
-                        ></el-input>
-                    </el-form-item>
-                    <el-form-item label="選擇身分">
-                        <el-select
-                            v-model="registerUser.identity"
-                            placeholder="選擇身分"
-                        >
-                            <el-option
-                                label="管理員"
-                                value="manager"
-                            ></el-option>
-                            <el-option
-                                label="一般員工"
-                                value="employee"
-                            ></el-option>
-                        </el-select>
-                    </el-form-item>
-
-                    <!-- 註冊 -->
-                    <el-form-item>
-                        <el-button @click="handleSubmit(ruleFormRef)">註冊</el-button>
-                    </el-form-item>
-
-                </el-form>
-            </div>
-        </section>
-    </div>
-</template>
