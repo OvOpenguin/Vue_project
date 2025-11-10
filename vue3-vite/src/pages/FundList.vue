@@ -93,7 +93,7 @@
                     <el-button
                         size="small"
                         type="danger"
-                        @click="handleDelete(scope.$index, scope.row)"
+                        @click="handleDelete(scope.row)"
                     >刪除</el-button>
                 </template>
             </el-table-column>
@@ -110,11 +110,12 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios';
+import axios from '../utils/api';
 import { ref, onMounted } from 'vue';
 import { Timer } from "@element-plus/icons-vue";
 import DialogModal from '../components/DialogModal.vue';
 import type { fundDateType } from "../utils/types";
+import { ElMessage } from 'element-plus';
 
 const tableData = ref<never[]>([]);
 const show = ref<boolean>(false);
@@ -134,13 +135,22 @@ onMounted(() => {
 
 // 編輯 (抓取表單內的值，並賦值給 editData )
 const handleEdit = (row: fundDateType) => {
-    editData.value = row;  
+    editData.value = row;
     show.value = true;
     // console.log(row);
 };
-// 刪除
-const handleDelete = (row: fundDateType, index: number) => {
-    console.log('刪除');
+// 刪除項目至後端 (DELETE)
+// row: fundDateType
+const handleDelete = async (row: fundDateType) => {
+
+    try {
+        const res = await axios.delete(`/api/profiles/${row.id}`);
+        console.log("刪除成功", res);
+        ElMessage.success("刪除成功");
+        getProfiles();
+    } catch (err) {
+        console.error("刪除失敗", err);
+    }
 };
 
 // 添加：顯示彈窗

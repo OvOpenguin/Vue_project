@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Navbar />
-    <Sidebar/>
+    <Sidebar />
     <div class="container-right"><router-view></router-view></div>
   </div>
 </template>
@@ -47,13 +47,13 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.home{
+.home {
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
-.container-right{
+.container-right {
   position: relative;
   top: 0;
   left: 180px;
@@ -61,5 +61,4 @@ onMounted(async () => {
   height: 100%;
   overflow: auto;
 }
-
 </style>

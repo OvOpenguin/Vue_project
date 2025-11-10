@@ -89,7 +89,7 @@
 import { defineProps, defineEmits, ref, watch } from "vue";
 import { ElMessage, type FormInstance } from 'element-plus';  // element-plus
 import type { formRulesType, fundDateType } from "../utils/types"
-import axios from "axios";
+import axios from "../utils/api";
 
 
 
@@ -101,7 +101,9 @@ const fundData = ref<fundDateType | any>({
     income: "1500",
     expend: "500",
     cash: "2000",
-    remark: "提升技能"
+    remark: "提升技能",
+    documentId:"",
+
 });
 
 // 校驗規則 (element 預設)：和表單內的 props 綁定
@@ -114,24 +116,42 @@ const formRules: formRulesType = {
 
 const form = ref<FormInstance>();
 
-// const handleSubmit = () => {
-//     //@ts-ignore
-//     form.value.validate((valid) => {
-//         console.log(fundData.value);
-//     })
-// };
-
+// (重要!!!) 
+// 1.新增項目至後端 (POST)
+// 2.更新項目至後端 (PUT)
 const handleSubmit = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.validate(async (valid: boolean) => {
         if (valid) {
+
+            console.log(fundData.value);
             // strapi 需回傳 data:{} 開頭的物件資料中
             const payload = {
                 data: fundData.value
             };
+
+            const updateload = {
+                data: {
+                    type: fundData.value.type,
+                    describe: fundData.value.describe,
+                    income: fundData.value.income,
+                    expend: fundData.value.expend,
+                    cash: fundData.value.cash,
+                    remark: fundData.value.remark,
+                }
+            };
+
+            const id = props.editData?.documentId;
             try {
-                await axios.post('/api/profiles', payload);
-                ElMessage.success('添加成功');
+
+                if (!!id) {
+                    await axios.put(`/api/profiles/${id}`, updateload);
+                    ElMessage.success('修改成功');
+                }
+                else {
+                    await axios.post('/api/profiles', payload);
+                    ElMessage.success('添加成功');
+                };
 
                 // 子組件告至父組件，關閉彈窗。
                 emit('update:show', false);
@@ -167,7 +187,6 @@ const emit = defineEmits<{
     (event: 'submitSuccess'): void;
 }>()
 
-
 const handleClose = () => {
     // console.log("取消");
     emit('update:show', false);
@@ -181,6 +200,7 @@ watch(
     (newVal) => {
         if (newVal) {
             fundData.value = newVal;
+            // console.log(newVal);
         } else {
             // 添加模式：重置為初始/空物件，避免 fundData 為 undefined (重要!)
             fundData.value = {
@@ -194,8 +214,6 @@ watch(
         }
     }
 );
-
-
 
 
 </script>
