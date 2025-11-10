@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useAuthStore } from './store';
+import { ElConfigProvider } from 'element-plus'; // 切換語言
+import zhTw from 'element-plus/es/locale/lang/zh-tw' // 指定語言
 
 const store = useAuthStore();
 
@@ -18,12 +20,12 @@ onMounted(() => {
 </script>
 
 <template>
-    <router-view></router-view>
+    <el-config-provider :locale="zhTw">
+        <router-view></router-view>
+    </el-config-provider>
 </template>
 
 <style>
-
-
 html,
 body,
 #app {
