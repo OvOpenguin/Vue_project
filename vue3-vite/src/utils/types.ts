@@ -64,6 +64,7 @@ export interface fundDateType {
     expend: string;
     cash: string;
     remark: string;
+    _id?:string;
 }
 export interface formRulesType {
     describe: {

@@ -103,6 +103,7 @@
         <DialogModal
             v-model:show="show"
             @submit-success="getProfiles"
+            :editData="editData"
         />
     </div>
 
@@ -113,13 +114,15 @@ import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { Timer } from "@element-plus/icons-vue";
 import DialogModal from '../components/DialogModal.vue';
+import type { fundDateType } from "../utils/types";
 
-const tableData = ref([]);
-const show = ref(false);
+const tableData = ref<never[]>([]);
+const show = ref<boolean>(false);
+const editData = ref<fundDateType>();
 
 const getProfiles = async () => {
     const { data } = await axios("/api/profiles?populate=*"); //{data} 可解構出 response.data
-    console.log(data.data); // 直接取data陣列
+    // console.log(data.data); // 直接取data陣列
     tableData.value = data.data;
 };
 
@@ -129,15 +132,21 @@ onMounted(() => {
     getProfiles();
 });
 
+// 編輯 (抓取表單內的值，並賦值給 editData )
+const handleEdit = (row: fundDateType) => {
+    editData.value = row;  
+    show.value = true;
+    // console.log(row);
+};
+// 刪除
+const handleDelete = (row: fundDateType, index: number) => {
+    console.log('刪除');
+};
 
-// const handleEdit = (row: any) => {
-//     console.log('編輯');
-// };
-// const handleEdit = (row: any, index: any) => {
-//     console.log('刪除');
-// };
+// 添加：顯示彈窗
 const handleAdd = () => {
     show.value = true;
+    editData.value = undefined; //清空內容
 };
 
 </script>

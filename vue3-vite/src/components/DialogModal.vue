@@ -1,7 +1,8 @@
 <template>
+    <!-- 綁定 emit 事件的設定(重要!!!) -->
     <el-dialog
+        :title="editData ? '編輯收支項目' : '添加收支項目'"
         :model-value="show"
-        title="添加收支項目"
         @update:model-value="$emit('update:show', $event)"
     >
         <el-form
@@ -85,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref } from "vue";
+import { defineProps, defineEmits, ref, watch } from "vue";
 import { ElMessage, type FormInstance } from 'element-plus';  // element-plus
 import type { formRulesType, fundDateType } from "../utils/types"
 import axios from "axios";
@@ -94,7 +95,7 @@ import axios from "axios";
 
 const typeList = ref(["現金", "信用卡", "LinePay", "悠遊付"]);
 
-const fundData = ref<fundDateType>({
+const fundData = ref<fundDateType | any>({
     type: "現金",
     describe: "購買課程",
     income: "1500",
@@ -148,12 +149,16 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
 };
 
 
+
 // 處理表單的開關
 // 1. 聲明 prop
 const props = defineProps({
     show: {
         type: Boolean,
     },
+    editData: {
+        type: Object as () => fundDateType,
+    }
 });
 
 // 2. 聲明 emits，發出 update:show 事件
@@ -167,5 +172,30 @@ const handleClose = () => {
     // console.log("取消");
     emit('update:show', false);
 };
+
+// watch 用法：oldVal, newVal
+// 監聽父組件回傳的 editData
+watch(
+    () => props.editData,
+    // () => {fundData.value = props.editData;}
+    (newVal) => {
+        if (newVal) {
+            fundData.value = newVal;
+        } else {
+            // 添加模式：重置為初始/空物件，避免 fundData 為 undefined (重要!)
+            fundData.value = {
+                type: "現金", // 保持預設值
+                describe: "",
+                income: "",
+                expend: "",
+                cash: "",
+                remark: ""
+            };
+        }
+    }
+);
+
+
+
 
 </script>
