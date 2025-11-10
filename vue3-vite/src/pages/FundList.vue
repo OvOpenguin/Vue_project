@@ -1,5 +1,17 @@
 <template>
-    <div class="fillcontainer">
+    <div class="fillcontain">
+
+        <div class="btn-right">
+            <el-form :inline="true">
+                <el-form-item>
+                    <el-button
+                        size="small"
+                        type="primary"
+                        @click="handleAdd"
+                    >添加</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
         <!-- table 綁定 tableData -->
         <el-table
             :data="tableData"
@@ -87,40 +99,56 @@
             </el-table-column>
 
         </el-table>
+
+        <DialogModal v-model="show" />
     </div>
+
 </template>
 
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, watchEffect } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Timer } from "@element-plus/icons-vue";
+import DialogModal from '../components/DialogModal.vue';
 
 const tableData = ref([]);
-
+const show = ref(false);
 const getProfiles = async () => {
     const { data } = await axios("/api/profiles"); //{data} 可解構出 response.data
     console.log(data.data); // 直接取data陣列
     tableData.value = data.data;
 };
 
-watchEffect(() => getProfiles());
+// watchEffect(() => getProfiles());
+
+onMounted(() => {
+    getProfiles();
+});
 
 
 // const handleEdit = (row: any) => {
 //     console.log('編輯');
 // };
-
 // const handleEdit = (row: any, index: any) => {
 //     console.log('刪除');
 // };
+const handleAdd = () => {
+    show.value = true;
+};
 
 </script>
 
 <style scoped>
-.fillcontainer{
+.fillcontain {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     padding: 16px;
+}
+
+.btn-right {
+    width: 85%;
+    display: flex;
+    justify-content: end;
 }
 </style>

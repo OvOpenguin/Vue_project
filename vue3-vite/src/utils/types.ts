@@ -54,3 +54,36 @@ export interface userType {
     username?: String,
     avatar?: String | null,
 }
+
+// 資金流向的資料定義
+
+export interface fundDateType {
+    type: string;
+    describe: string;
+    income: string;
+    expend: string;
+    cash: string;
+    remark: string;
+}
+export interface formRulesType {
+    describe: {
+        required: boolean;
+        message: string;
+        trigger: string;
+    }[];
+    income: {
+        required: boolean;
+        message: string;
+        trigger: string;
+    }[];
+    expend: {
+        required: boolean;
+        message: string;
+        trigger: string;
+    }[];
+    cash: {
+        required: boolean;
+        message: string;
+        trigger: string;
+    }[];
+}
