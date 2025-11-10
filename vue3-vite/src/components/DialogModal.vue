@@ -74,7 +74,7 @@
             </el-form-item>
 
             <el-form-item class="text-right">
-                <el-button>取消</el-button>
+                <el-button @click="handleClose">取消</el-button>
                 <el-button
                     type="primary"
                     @click="handleSubmit(form)"
@@ -86,11 +86,14 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from "vue";
-import type { FormInstance } from 'element-plus';  // element-plus
+import { ElMessage, type FormInstance } from 'element-plus';  // element-plus
 import type { formRulesType, fundDateType } from "../utils/types"
+import axios from "axios";
+
 
 
 const typeList = ref(["現金", "信用卡", "LinePay", "悠遊付"]);
+
 const fundData = ref<fundDateType>({
     type: "現金",
     describe: "購買課程",
@@ -121,7 +124,22 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.validate(async (valid: boolean) => {
         if (valid) {
-            console.log(fundData.value);
+            // strapi 需回傳 data:{} 開頭的物件資料中
+            const payload = {
+                data: fundData.value
+            };
+            try {
+                await axios.post('/api/profiles', payload);
+                ElMessage.success('添加成功');
+
+                // 子組件告至父組件，關閉彈窗。
+                emit('update:show', false);
+                emit('submitSuccess');
+
+            } catch (error) {
+                console.error('Post 失敗', error);
+                ElMessage.error('添加失敗，請檢查後台或連線');
+            }
         }
         else {
             console.log('表單驗證失敗')
@@ -130,9 +148,7 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
 };
 
 
-
-
-
+// 處理表單的開關
 // 1. 聲明 prop
 const props = defineProps({
     show: {
@@ -141,8 +157,15 @@ const props = defineProps({
 });
 
 // 2. 聲明 emits，發出 update:show 事件
-defineEmits<{
-    (e: 'update:show', value: boolean): void
+const emit = defineEmits<{
+    (event: 'update:show', value: boolean): void,
+    (event: 'submitSuccess'): void;
 }>()
+
+
+const handleClose = () => {
+    // console.log("取消");
+    emit('update:show', false);
+};
 
 </script>

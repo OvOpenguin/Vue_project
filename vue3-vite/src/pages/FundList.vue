@@ -72,11 +72,11 @@
                 </template>
             </el-table-column>
             <el-table-column
-                prop="expend"
+                prop="remark"
                 label="備註"
             >
                 <template #default="scope">
-                    <span style="color: #f56767;">{{ scope.row.expend }}</span>
+                    <span style="color: #f56767;">{{ scope.row.remark }}</span>
                 </template>
             </el-table-column>
             <el-table-column
@@ -100,7 +100,10 @@
 
         </el-table>
 
-        <DialogModal v-model="show" />
+        <DialogModal
+            v-model:show="show"
+            @submit-success="getProfiles"
+        />
     </div>
 
 </template>
@@ -113,8 +116,9 @@ import DialogModal from '../components/DialogModal.vue';
 
 const tableData = ref([]);
 const show = ref(false);
+
 const getProfiles = async () => {
-    const { data } = await axios("/api/profiles"); //{data} 可解構出 response.data
+    const { data } = await axios("/api/profiles?populate=*"); //{data} 可解構出 response.data
     console.log(data.data); // 直接取data陣列
     tableData.value = data.data;
 };
