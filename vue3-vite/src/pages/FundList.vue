@@ -1,10 +1,32 @@
 <template>
     <div class="fillcontain">
 
-        <!-- 添加項目 -->
-        <div class="btn-right">
+        <div>
             <el-form :inline="true">
+                <!-- 時間篩選 -->
+                <el-form-item label="時間篩選">
+                    <el-date-picker
+                        v-model="startTime"
+                        type="datetime"
+                        placeholder="選擇開始時間"
+                    ></el-date-picker>
+                    --
+                    <el-date-picker
+                        v-model="endTime"
+                        type="datetime"
+                        placeholder="選擇結束時間"
+                    ></el-date-picker>
+                </el-form-item>
+                <!-- 篩選按鈕 -->
                 <el-form-item>
+                    <el-button
+                        size="small"
+                        type="primary"
+                        @click="handleSort"
+                    >篩選</el-button>
+                </el-form-item>
+                <!-- 添加項目 -->
+                <el-form-item class="btn-right">
                     <el-button
                         size="small"
                         type="primary"
@@ -13,6 +35,8 @@
                 </el-form-item>
             </el-form>
         </div>
+
+
 
         <!-- table 綁定 tableData -->
         <el-table
@@ -138,25 +162,28 @@ import DialogModal from '../components/DialogModal.vue';
 import type { fundDateType } from "../utils/types";
 import { ElMessage } from 'element-plus';
 
-const tableData = ref<never[]>([]);
+const tableData = ref<fundDateType[]>([]);
 const show = ref<boolean>(false);
 const editData = ref<fundDateType>();
 
-const allTableData = ref();
+const allTableData = ref<fundDateType[]>([]);
 const currentPage = ref(1); // 當前頁面
 const pageSize = ref(5); // 一頁顯示多少條 
 const total = ref(20); //總共多少條
 const page_sizes = ref([5, 10, 15, 20]); // 每頁顯示?條
 const layout = "total, sizes, prev, pager, next, jumper"; // 翻頁屬性
 
-
+const startTime = ref<Date>();
+const endTime = ref<Date>();
+const filterTableData = ref<fundDateType[]>([]);
 
 const getProfiles = async () => {
     const { data } = await axios("/api/profiles?populate=*"); //{data} 可解構出 response.data
     // console.log(data.data); // 直接取data陣列
-    tableData.value = data.data;
+    tableData.value = data.data; //渲染用
 
-    allTableData.value = data.data;
+    allTableData.value = data.data; // 分頁用
+    filterTableData.value = data.data; // 時間篩選用
     setPagination();
 };
 
@@ -231,6 +258,33 @@ const handleCurrentChange = (pages: number) => {
     });
 };
 
+const handleSort = () => {
+    if (!startTime.value || !endTime.value) {
+        ElMessage({
+            type: "warning",
+            message: "請選擇時間區間"
+        });
+        getProfiles();
+        return;
+    }
+
+    const stime = startTime.value.getTime();
+    const etime = endTime.value.getTime();
+    // console.log(stime, etime);
+
+    // 篩選過濾時間
+    allTableData.value = filterTableData.value.filter((item: any) => {
+        console.log(item); // 顯示所有項目的 Proxy
+        // console.log(item.updatedAt); // 更新時間
+        let date = new Date(item.updatedAt);
+        let time = date.getTime();
+        return time >= stime && time <= etime;
+    });
+
+    // 調用分頁功能
+    setPagination();
+};
+
 
 
 </script>
@@ -243,10 +297,10 @@ const handleCurrentChange = (pages: number) => {
     padding: 16px;
 }
 
+
 .btn-right {
-    /* width: 85%; */
-    display: flex;
-    justify-content: end;
+    float: right;
+    margin-top: 10px;
 }
 
 .pagination {
