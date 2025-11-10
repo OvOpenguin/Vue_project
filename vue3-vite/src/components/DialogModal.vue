@@ -124,7 +124,7 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
     formEl.validate(async (valid: boolean) => {
         if (valid) {
 
-            console.log(fundData.value);
+            // console.log(fundData.value); //查看 fundData
             // strapi 需回傳 data:{} 開頭的物件資料中
             const payload = {
                 data: fundData.value

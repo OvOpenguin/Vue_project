@@ -144,8 +144,7 @@ const handleEdit = (row: fundDateType) => {
 const handleDelete = async (row: fundDateType) => {
 
     try {
-        const res = await axios.delete(`/api/profiles/${row.id}`);
-        console.log("刪除成功", res);
+        await axios.delete(`/api/profiles/${row.documentId}`);
         ElMessage.success("刪除成功");
         getProfiles();
     } catch (err) {
