@@ -164,12 +164,12 @@ import type { fundDateType } from "../utils/types";
 import { ElMessage } from 'element-plus';
 import { useAuthStore } from '../store';
 
-const store = useAuthStore();
-const identity = store.user?.identity;
+// const store = useAuthStore();
+// const identity = store.user?.identity; // 權限使用:搭配 v-if 決定顯示
 
 const tableData = ref<fundDateType[]>([]);
 const show = ref<boolean>(false);
-const editData = ref<fundDateType>();
+const editData = ref<fundDateType>();  // 更新用data (傳給子元件)
 
 const allTableData = ref<fundDateType[]>([]);
 const currentPage = ref(1); // 當前頁面
@@ -192,8 +192,6 @@ const getProfiles = async () => {
     setPagination();
 };
 
-// watchEffect(() => getProfiles());
-
 onMounted(() => {
     getProfiles();
 });
@@ -204,6 +202,7 @@ const handleEdit = (row: fundDateType) => {
     show.value = true;
     // console.log(row);
 };
+
 // 刪除項目至後端 (DELETE)
 // row: fundDateType
 const handleDelete = async (row: fundDateType) => {
@@ -219,8 +218,8 @@ const handleDelete = async (row: fundDateType) => {
 
 // 添加：顯示彈窗
 const handleAdd = () => {
-    show.value = true;
     editData.value = undefined; //清空內容
+    show.value = true;
 };
 
 // 預設：第 1 頁顯示 5 條項目

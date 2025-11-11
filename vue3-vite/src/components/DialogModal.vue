@@ -93,17 +93,17 @@ import axios from "../utils/api";
 
 
 
+
 const typeList = ref(["現金", "信用卡", "LinePay", "悠遊付"]);
 
 const fundData = ref<fundDateType | any>({
     type: "現金",
-    describe: "購買課程",
-    income: "1500",
-    expend: "500",
-    cash: "2000",
-    remark: "提升技能",
-    documentId:"",
-
+    describe: "",
+    income: "100",
+    expend: "100",
+    cash: "100",
+    remark: "",
+    documentId: "",
 });
 
 // 校驗規則 (element 預設)：和表單內的 props 綁定
@@ -129,7 +129,7 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
             const payload = {
                 data: fundData.value
             };
-
+            // PUT payload
             const updateload = {
                 data: {
                     type: fundData.value.type,
@@ -140,10 +140,10 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
                     remark: fundData.value.remark,
                 }
             };
-
+            // api 請求用 id
             const id = props.editData?.documentId;
-            try {
 
+            try {
                 if (!!id) {
                     await axios.put(`/api/profiles/${id}`, updateload);
                     ElMessage.success('修改成功');
@@ -193,7 +193,7 @@ const handleClose = () => {
 };
 
 // watch 用法：oldVal, newVal
-// 監聽父組件回傳的 editData
+// 監聽父組件回傳的 editData 
 watch(
     () => props.editData,
     // () => {fundData.value = props.editData;}
@@ -209,10 +209,11 @@ watch(
                 income: "",
                 expend: "",
                 cash: "",
-                remark: ""
+                remark: "",
             };
         }
-    }
+    },
+    { immediate: true } // (重要!) 需要初次掛載時就立即執行一次，讓 post 時的 payload (fundData.value) 保持乾淨。(隨意添加選項 strapi 可能報錯) 
 );
 
 
