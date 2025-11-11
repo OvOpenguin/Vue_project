@@ -25,6 +25,7 @@
                         @click="handleSort"
                     >篩選</el-button>
                 </el-form-item>
+
                 <!-- 添加項目 -->
                 <el-form-item class="btn-right">
                     <el-button
@@ -161,6 +162,10 @@ import { Timer } from "@element-plus/icons-vue";
 import DialogModal from '../components/DialogModal.vue';
 import type { fundDateType } from "../utils/types";
 import { ElMessage } from 'element-plus';
+import { useAuthStore } from '../store';
+
+const store = useAuthStore();
+const identity = store.user?.identity;
 
 const tableData = ref<fundDateType[]>([]);
 const show = ref<boolean>(false);

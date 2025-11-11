@@ -33,6 +33,7 @@ onMounted(async () => {
       username: user.username,
       email: user.email,
       avatar: `${API_URL}${user.avatar.url}`, // avatar 前方加上後端來源網址
+      identity: user.identity,
     };
     localStorage.setItem('safeUserData', JSON.stringify(safeUserData));
 

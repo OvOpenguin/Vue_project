@@ -66,6 +66,7 @@
                     <!-- 註冊 -->
                     <el-form-item>
                         <el-button @click="handleSubmit(ruleFormRef)">註冊</el-button>
+                        <el-button @click="router.push('/login')">回登入</el-button>
                     </el-form-item>
 
                 </el-form>
@@ -135,6 +136,7 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
                 username: registerUser.value.name,
                 email: registerUser.value.email,
                 password: registerUser.value.password,
+                identity: registerUser.value.identity,
             };
 
             try {

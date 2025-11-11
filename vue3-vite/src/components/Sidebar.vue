@@ -2,7 +2,7 @@
     <el-row class="menu-container">
         <el-col :sapn="12">
             <el-menu
-                active-text-color="#32eee1"
+                active-text-color="#edbc53"
                 background-color="#074c62"
                 class="el-menu-vertical-demo"
                 default-active="1"

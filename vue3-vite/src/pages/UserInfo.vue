@@ -25,6 +25,7 @@
                 <div class="userinfo">
                     <div class="user-item">使用者：<span>{{ store.user?.username }}</span></div>
                     <div class="user-item">信箱：<span>{{ store.user?.email }}</span></div>
+                    <div class="user-item">權限：<span>{{ identityLabel }}</span></div>
                 </div>
 
             </el-col>
@@ -34,10 +35,22 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useAuthStore } from '../store';
 
 
 const store = useAuthStore();
+const identityLabel = computed(() => {
+    switch (store.user?.identity) {
+        case 'employee':
+            return '一般職員'
+        case 'manager':
+            return '管理員'
+        default:
+            return '未知'
+    }
+})
+
 
 
 </script>

@@ -73,6 +73,9 @@
         "images",
         "files"
       ]
+    },
+    "identity": {
+      "type": "string"
     }
   }
 }

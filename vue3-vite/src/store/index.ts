@@ -16,11 +16,10 @@ export const useAuthStore = defineStore('auth', {
                 this.isAuthenticated = false;
             }
         },
-        // 這邊還需要改動 user 的 TS 類型(暫時放any)
         setUser(user: userType | null) {
             this.user = user;
         },
-        // 存放state
+        // 初始化localStorage 存放state
         initFromLocalStorage() {
             const token = localStorage.getItem('jwtToken');
             const userSafeData = localStorage.getItem('userSafeData');
