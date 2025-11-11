@@ -27,11 +27,15 @@
                         style="display:none"
                         @change="handleFileChange"
                     />
-                    <!-- 確認上傳按鈕 -->
-                    <el-button
+
+                    <!-- <el-button
                         type="primary"
                         :disabled="!selectedFile"
                         @click="confirmUpload"
+                    >確定上傳</el-button> -->
+                    <el-button
+                        type="primary"
+                        :disabled="!selectedFile"
                     >確定上傳</el-button>
 
                 </div>
@@ -54,7 +58,7 @@
 import { computed, ref } from 'vue';
 import { useAuthStore } from '../store';
 import avatarDefault from '../assets/avatarDefault.png?url';
-import axios from "../utils/api";
+// import axios from "../utils/api";
 
 
 const store = useAuthStore();
@@ -102,61 +106,60 @@ const handleFileChange = (event: Event) => {
 
 
 // 確認上傳
-const confirmUpload = async () => {
-    if (!selectedFile.value || !store.user?.id) return;
+// const confirmUpload = async () => {
+//     if (!selectedFile.value || !store.user?.id) return;
 
-    const formData = new FormData();
-    formData.append('files', selectedFile.value); // Strapi upload API 需要 key = files
+//     const formData = new FormData();
+//     formData.append('files', selectedFile.value); // Strapi upload API 需要 key = files
 
-    try {
-        // 上傳圖片到 Strapi /api/upload
-        const uploadRes = await axios.post('/api/upload',
-            formData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-                },
-            }
-        );
-        // console.log(uploadRes);
-        // console.log(uploadRes.data);
-        console.log(uploadRes.data[0]);
-        // console.log(uploadRes.data[0].id);
+//     try {
+//         // 上傳圖片到 Strapi /api/upload
+//         const uploadRes = await axios.post('/api/upload', formData,
+//             {
+//                 headers: {
+//                     'Content-Type': 'multipart/form-data',
+//                     Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+//                 },
+//             }
+//         );
+//         // console.log(uploadRes);
+//         // console.log(uploadRes.data);
+//         console.log(uploadRes.data[0]);
+//         // console.log(uploadRes.data[0].url);
 
-        // 上傳成功後取得檔案 ID
-        const uploadedFile = uploadRes.data[0]; // Strapi 回傳陣列
-        const fileId = uploadedFile.id;
-        // const filedoId = uploadedFile.documentId;
+//         // 上傳成功後取得檔案 ID
+//         const uploadedFile = uploadRes.data[0]; // Strapi 回傳陣列
+//         const avatarUrl = uploadRes.data[0].url;
+//         // const fileId = uploadedFile.id;
+//         // const filedoId = uploadedFile.documentId;
 
 
-        // PUT 更新使用者 avatar
-        await axios.put(
-            '/api/users/me',
-            {
-                data: {
-                    avatar: fileId, // avatar 欄位是 Media
-                },
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-                },
-            }
-        );
+//         // PUT 更新使用者 avatar
+//         await axios.put('/api/users/3',
+//             {
+//                 data: {
+//                     url: avatarUrl,
+//                 },
+//             },
+//             {
+//                 headers: {
+//                     Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+//                 },
+//             }
+//         );
 
-        // 更新 store avatar，立即更新畫面
-        store.user.avatar = uploadedFile.url;
+//         // 更新 store avatar，立即更新畫面
+//         store.user.avatar = uploadedFile.url;
 
-        // 清空選檔和預覽
-        selectedFile.value = null;
-        previewImage.value = null;
+//         // 清空選檔和預覽
+//         selectedFile.value = null;
+//         previewImage.value = null;
 
-        console.log('上傳成功！');
-    } catch (error) {
-        console.error('上傳失敗', error);
-    }
-};
+//         console.log('上傳成功！');
+//     } catch (error) {
+//         console.error('上傳失敗', error);
+//     }
+// };
 
 
 

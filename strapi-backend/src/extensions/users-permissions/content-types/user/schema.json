@@ -76,6 +76,9 @@
     },
     "identity": {
       "type": "string"
+    },
+    "url": {
+      "type": "string"
     }
   }
 }
