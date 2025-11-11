@@ -53,7 +53,9 @@ export interface userType {
     email?: String,
     username?: String,
     avatar?: String | null,
-    identity: String,
+    identity?: String,
+    documentId?: String,
+
 }
 
 // 資金流向的資料定義

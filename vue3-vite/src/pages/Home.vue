@@ -17,8 +17,10 @@ import { RouterView } from 'vue-router';
 import Sidebar from '../components/Sidebar.vue';
 
 
+
 const store = useAuthStore();
 const API_URL = import.meta.env.VITE_STRAPI_URL || "http://localhost:1337"; //後端回傳的 avatar url 需在前面加上來源網址
+
 
 // 取得user資料
 onMounted(async () => {
@@ -27,13 +29,18 @@ onMounted(async () => {
     // console.log(res.data);
     const user = res.data;
 
+    const avatarUrl = user?.avatar?.url
+      ? `${API_URL}${user.avatar.url}` // avatar 前方加上後端來源網址
+      : null;
+
     // 取用 user 存放的資料
     const safeUserData: userType = {
       id: user.id,
       username: user.username,
       email: user.email,
-      avatar: `${API_URL}${user.avatar.url}`, // avatar 前方加上後端來源網址
+      avatar: avatarUrl,
       identity: user.identity,
+      documentId: user.documentId
     };
     localStorage.setItem('safeUserData', JSON.stringify(safeUserData));
 

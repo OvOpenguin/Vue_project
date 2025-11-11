@@ -136,7 +136,6 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
                 username: registerUser.value.name,
                 email: registerUser.value.email,
                 password: registerUser.value.password,
-                identity: registerUser.value.identity,
             };
 
             try {

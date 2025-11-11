@@ -162,7 +162,7 @@ import { Timer } from "@element-plus/icons-vue";
 import DialogModal from '../components/DialogModal.vue';
 import type { fundDateType } from "../utils/types";
 import { ElMessage } from 'element-plus';
-import { useAuthStore } from '../store';
+
 
 // const store = useAuthStore();
 // const identity = store.user?.identity; // 權限使用:搭配 v-if 決定顯示
