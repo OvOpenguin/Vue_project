@@ -1,5 +1,8 @@
-使用工具：
-<br/> Vite
-<br/> Vue3
-<br/> Element Plus 
-<br/> Pinia
+## 使用工具：
+
+| NO | Languages |
+|-----:|-----------|
+|     1| Vue3      |
+|     2| Element Plus    |
+|     3|Pinia      |
+|     4|Typescript |
